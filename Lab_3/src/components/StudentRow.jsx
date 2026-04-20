@@ -4,7 +4,7 @@ function StudentRow({ student, onUpdateScore }) {
   const [newScore, setNewScore] = useState('');
 
   const isPass = student.score >= 40;
-  const statusColor = isPass ? 'green' : 'red';
+  const statusClass = isPass ? 'status-pass' : 'status-fail';
   const statusText = isPass ? 'Pass' : 'Fail';
 
   const handleUpdate = () => {
@@ -18,15 +18,17 @@ function StudentRow({ student, onUpdateScore }) {
     <tr>
       <td>{student.name}</td>
       <td>{student.score}</td>
-      <td style={{ color: statusColor, fontWeight: 'bold' }}>
-        {statusText}
-      </td>
       <td>
+        <span className={`status-badge ${statusClass}`}>
+          {statusText}
+        </span>
+      </td>
+      <td className="action-cell">
         <input 
           type="number" 
           value={newScore} 
           onChange={(e) => setNewScore(e.target.value)} 
-          placeholder="New Score"
+          placeholder="New score"
         />
         <button onClick={handleUpdate}>Update</button>
       </td>

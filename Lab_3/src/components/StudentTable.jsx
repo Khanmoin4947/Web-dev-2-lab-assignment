@@ -4,7 +4,7 @@ import StudentRow from './StudentRow';
 function StudentTable({ students, onUpdateScore }) {
   return (
     <div className="table-container">
-      <table border="1">
+      <table>
         <thead>
           <tr>
             <th>Name</th>
