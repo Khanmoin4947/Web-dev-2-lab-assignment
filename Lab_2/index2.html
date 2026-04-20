@@ -1,0 +1,263 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Async Weather Tracker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    ☀️ Async Weather Tracker
+</header>
+
+<div class="container">
+
+    <!-- Left Panel -->
+    <div class="left-panel">
+
+        <div class="card">
+            <h3>Search City</h3>
+
+            <input type="text" id="cityInput" placeholder="Delhi, London">
+            <button id="searchBtn">Search</button>
+
+            <h4>Search History</h4>
+            <ul id="history"></ul>
+        </div>
+
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+
+        <div class="card">
+            <h3>Weather Info</h3>
+            <div id="weatherResult">Search a city to see weather</div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Console Section -->
+
+<div class="console-card">
+
+<h3>Console – Event Loop</h3>
+<div id="consoleBox"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+
+<!-- Style.css -->
+ body{
+    margin:0;
+    font-family: Arial;
+    background:#1f2b63;
+    color:#333;
+}
+
+/* HEADER */
+
+header{
+    background:#2c3576;
+    color:white;
+    text-align:center;
+    padding:15px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* LAYOUT */
+
+.container{
+    display:flex;
+    gap:20px;
+    padding:30px;
+}
+
+.left-panel{
+    flex:1;
+}
+
+.right-panel{
+    flex:1;
+}
+
+/* CARDS */
+
+.card{
+    background:#eee;
+    padding:20px;
+    border-radius:8px;
+}
+
+/* INPUT */
+
+input{
+    width:70%;
+    padding:8px;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
+
+button{
+    padding:8px 12px;
+    background:#f06d2f;
+    border:none;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+/* HISTORY */
+
+li{
+    cursor:pointer;
+    color:blue;
+    margin-top:5px;
+}
+
+/* WEATHER RESULT */
+
+#weatherResult{
+    margin-top:20px;
+    font-size:18px;
+}
+
+/* CONSOLE */
+
+.console-card{
+    background:#eee;
+    margin:0 30px 30px 30px;
+    padding:15px;
+    border-radius:8px;
+}
+
+#consoleBox{
+    background:#1f2b63;
+    color:white;
+    padding:10px;
+    border-radius:6px;
+    margin-top:10px;
+}
+
+
+<!-- script.js -->
+ const input = document.getElementById("cityInput");
+const button = document.getElementById("searchBtn");
+const result = document.getElementById("weatherResult");
+const historyList = document.getElementById("history");
+const consoleBox = document.getElementById("consoleBox");
+
+
+function log(message){
+    console.log(message);
+    consoleBox.innerHTML += message + "<br>";
+}
+
+
+/* EVENT LOOP DEMO */
+
+log("Script Started");
+
+setTimeout(()=>{
+    log("Async task executed");
+},0);
+
+log("Script Finished");
+
+
+button.addEventListener("click", ()=>{
+    const city = input.value;
+
+    if(city === ""){
+        alert("Enter city name");
+        return;
+    }
+
+    getWeather(city);
+});
+
+
+async function getWeather(city){
+
+    try{
+
+        log("Before fetch");
+
+        const response = await fetch(`https://wttr.in/${city}?format=j1`);
+
+        log("After fetch");
+
+        const data = await response.json();
+
+        const temp = data.current_condition[0].temp_C;
+        const condition = data.current_condition[0].weatherDesc[0].value;
+
+        result.innerHTML = `
+        <b>City:</b> ${city}<br>
+        <b>Temperature:</b> ${temp}°C<br>
+        <b>Condition:</b> ${condition}
+        `;
+
+        saveCity(city);
+
+    }
+
+    catch(error){
+
+        result.innerHTML = "Error fetching weather";
+
+    }
+
+}
+
+
+/* LOCAL STORAGE */
+
+function saveCity(city){
+
+    let cities = JSON.parse(localStorage.getItem("cities")) || [];
+
+    if(!cities.includes(city)){
+        cities.push(city);
+        localStorage.setItem("cities", JSON.stringify(cities));
+    }
+
+    showHistory();
+
+}
+
+
+function showHistory(){
+
+    historyList.innerHTML="";
+
+    let cities = JSON.parse(localStorage.getItem("cities")) || [];
+
+    cities.forEach(city=>{
+
+        let li = document.createElement("li");
+        li.textContent = city;
+
+        li.addEventListener("click", ()=>{
+            getWeather(city);
+        });
+
+        historyList.appendChild(li);
+
+    });
+
+}
+
+showHistory();
