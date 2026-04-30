@@ -6,11 +6,11 @@ export default function Home() {
     <div className="bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
         <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
-          <span className="block xl:inline">Premium products for</span>{' '}
-          <span className="block text-indigo-600 dark:text-indigo-400 xl:inline">your everyday needs</span>
+          <span className="block xl:inline">Welcome to</span>{' '}
+          <span className="block text-indigo-600 dark:text-indigo-400 xl:inline">Rogers Shop</span>
         </h1>
         <p className="mt-4 max-w-md mx-auto text-base text-gray-600 dark:text-gray-300 sm:text-lg md:mt-6 md:text-xl md:max-w-3xl">
-          Discover a wide range of categories, fast search, and a beautiful shopping experience. Everything you need, one click away.
+          Premium gear and everyday needs. Because we can do this all day.
         </p>
         <div className="mt-8 max-w-md mx-auto sm:flex sm:justify-center md:mt-10">
           <div className="rounded-md">

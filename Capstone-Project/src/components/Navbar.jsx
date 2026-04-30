@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { ShoppingCart, User, LogOut, Sun, Moon } from 'lucide-react';
-import { logout } from '../store/authSlice';
+import { useSelector } from 'react-redux';
+import { ShoppingCart, Sun, Moon, Shield } from 'lucide-react';
 
 export default function Navbar() {
   const { totalQuantity } = useSelector((state) => state.cart);
-  const { isAuthenticated } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
   
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return document.documentElement.classList.contains('dark');
@@ -21,10 +18,6 @@ export default function Navbar() {
     }
   }, [isDarkMode]);
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-
   const toggleDarkMode = () => {
     setIsDarkMode(prev => !prev);
   };
@@ -34,8 +27,9 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center">
-              <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 tracking-tight">ShopHub</span>
+            <Link to="/" className="flex-shrink-0 flex items-center space-x-2">
+              <Shield className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+              <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 tracking-tight">Rogers Shop</span>
             </Link>
             <div className="hidden md:ml-6 md:flex md:space-x-8">
               <Link to="/" className="text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</Link>
@@ -54,19 +48,6 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
-            {isAuthenticated ? (
-              <div className="flex items-center space-x-4">
-                <Link to="/admin" className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">Admin</Link>
-                <button onClick={handleLogout} className="p-2 text-gray-600 dark:text-gray-300 hover:text-red-500 transition-colors">
-                  <LogOut className="h-5 w-5" />
-                </button>
-              </div>
-            ) : (
-              <Link to="/login" className="flex items-center space-x-1 p-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-                <User className="h-5 w-5" />
-                <span className="text-sm font-medium">Login</span>
-              </Link>
-            )}
           </div>
         </div>
       </div>

@@ -6,8 +6,6 @@ import Home from './pages/Home';
 import Shop from './pages/Shop';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
-import Login from './pages/Login';
-import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
   return (
@@ -20,8 +18,6 @@ function App() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </main>
         <Footer />
@@ -31,3 +27,4 @@ function App() {
 }
 
 export default App;
+
